@@ -22,20 +22,22 @@ int main(void) {
     assert(vault_store_append(store, &rec) == 0);
     assert(vault_store_count(store) == 1);
 
-    const vault_record_t *found = vault_store_find(store, "abc1");
+    vault_record_t *found = vault_store_find(store, "abc1");
     assert(found != NULL);
     assert(strcmp(found->content, "https://example.com") == 0);
     assert(strcmp(found->tags, "rust,cli") == 0);
+    vault_record_free(found);
     assert(vault_store_find(store, "missing") == NULL);
 
     vault_store_close(store);
 
-    /* 재시작 시뮬레이션 — 로그를 다시 열었을 때 인덱스가 복구돼야 함 */
+    /* 재시작 시뮬레이션 — 로그를 다시 열었을 때 인덱스가 복구돼야 함(본문은 디스크에서 재조회) */
     vault_store_t *reopened = vault_store_open(path);
     assert(vault_store_count(reopened) == 1);
-    const vault_record_t *found2 = vault_store_find(reopened, "abc1");
+    vault_record_t *found2 = vault_store_find(reopened, "abc1");
     assert(found2 != NULL);
     assert(strcmp(found2->content, "https://example.com") == 0);
+    vault_record_free(found2);
 
     vault_store_close(reopened);
     unlink(path);
