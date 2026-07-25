@@ -1,0 +1,34 @@
+[package]
+name = "vault"
+version = "0.1.0"
+c-standard = "c17"
+
+[target.vault]
+type = "executable"
+sources = ["src/main.c", "src/hashtable.c", "src/shortcode.c", "src/store.c", "src/lru.c", "src/tagindex.c"]
+include-dirs = ["include"]
+
+[target.hashtable_test]
+type = "test"
+sources = ["tests/test_hashtable.c", "src/hashtable.c"]
+include-dirs = ["include"]
+
+[target.shortcode_test]
+type = "test"
+sources = ["tests/test_shortcode.c", "src/shortcode.c"]
+include-dirs = ["include"]
+
+[target.store_test]
+type = "test"
+sources = ["tests/test_store.c", "src/store.c", "src/hashtable.c"]
+include-dirs = ["include"]
+
+[target.lru_test]
+type = "test"
+sources = ["tests/test_lru.c", "src/lru.c", "src/hashtable.c"]
+include-dirs = ["include"]
+
+[target.tagindex_test]
+type = "test"
+sources = ["tests/test_tagindex.c", "src/tagindex.c"]
+include-dirs = ["include"]
